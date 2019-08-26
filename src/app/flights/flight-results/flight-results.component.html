@@ -1,0 +1,139 @@
+<main>
+  <div class="results-hero">
+    <div class="two-column-equal">
+      <dl>
+        <dt>Departure Date:</dt>
+        <dd>{{ query.departureDate }}</dd>
+        <dt>Passengers</dt>
+        <dd>{{ query.adults }}</dd>
+      </dl>
+      <dl>
+        <dt>Return Date</dt>
+        <dd>{{ query.returnDate }}</dd>
+        <dt>Class</dt>
+        <dd>{{ query.travelClass }}</dd>
+      </dl>
+    </div>
+  </div>
+  <section *ngIf="flightOffers.data && flightOffers.data.length > 0" class="booking-progress">
+    <div class="active">
+      <span>Flight Itinerary</span>
+      <div class="nodes-line">
+        <div class="node"></div>
+      </div>
+    </div>
+    <div>
+      <span>Passenger Details</span>
+      <div class="nodes-line">
+        <div class="node"></div>
+      </div>
+    </div>
+    <div>
+      <span>Payment Details</span>
+      <div class="nodes-line">
+        <div class="node"></div>
+      </div>
+    </div>
+  </section>
+  <header *ngIf="flightOffers.data &&  flightOffers.data.length > 0" class="header-result">
+    <span>1</span>
+    <div class="arrow-right"></div>
+    <h1>Choose an Outbound Flight</h1>
+  </header>
+  <div *ngIf="loading" class="loading" style="min-height: 300px">
+    <div
+      style="background:url(./assets/img/spinner.gif) no-repeat center center; margin: 100px 50px 50px; min-height:100px;"
+    ></div>
+    <p
+      style="text-align: center; font-size: 25px; font-weight: 300; margin-bottom: 50px"
+    >
+      Getting available flight Schedule...
+    </p>
+  </div>
+  <div *ngIf="flightOffers.data && flightOffers.data.length < 1" class="empty">
+    <div
+      style="background:url(./assets/img/poi.gif) no-repeat center center; margin-top: 50px; margin-bottom: 20px; min-height:200px;"
+    ></div>
+    <p
+      style="text-align: center; font-size: 50px; font-weight: 300; margin-bottom: 50px"
+    >
+      No record found...
+    </p>
+  </div>
+  <div *ngIf="flightOffers.data && flightOffers.data.length > 0" class="row">
+    <div *ngFor="let n of flightOffers.data; index as i">
+      <section class="result-panel">
+        <header>
+          <img class="carrier-logo" />
+          <div>
+            <h1>
+              {{ helper.multiFlight(n.offerItems[0].services[0].segments) && helper.samecarrier(n.offerItems[0].services[0].segments) ? 'Multiple Airlines': helper.getMetaValue(flightOffers.dictionaries, 'carriers', n.offerItems[0].services[0].segments[0].flightSegment.carrierCode) }}
+            </h1>
+            <span class="flight-no">{{
+              n.offerItems[0].services[0].segments[0].flightSegment.number
+            }}</span>
+          </div>
+          <div>
+            <dl>
+              <dt>All passengers from</dt>
+              <dd>{{ n.offerItems[0].price.total}}</dd>
+            </dl>
+          </div>
+        </header>
+        <div class="cmt-row">
+          <dl class="details">
+            <dt class="sr-only">Departure</dt>
+            <dd class="code">
+              {{ n.offerItems[0].services[0].segments[0].flightSegment.departure.iataCode }}
+            </dd>
+            <dd class="place">
+              {{
+                helper.getMetaValue(flightOffers.dictionaries, 'locations', n.offerItems[0].services[0].segments[0].flightSegment.departure.iataCode)
+              }}
+            </dd>
+            <dd class="time">
+              {{ n.offerItems[0].services[0].segments[0].flightSegment.departure.at }}
+            </dd>
+          </dl>
+          <dl class="duration">
+            <dt class="sr-only">Layover</dt>
+            <dd class="code"></dd>
+            <div class="nodes">
+              <div class="node-layover"></div>
+            </div>
+            <dd class="travel-time"></dd>
+          </dl>
+          <dl class="details">
+            <dt class="sr-only">Arrival</dt>
+            <dd class="code">
+              {{ n.offerItems[0].services[0].segments[n.offerItems[0].services[0].segments.length - 1].flightSegment.arrival.iataCode  }}
+            </dd>
+            <dd class="place">
+              {{
+                helper.getMetaValue(flightOffers.dictionaries, 'locations', n.offerItems[0].services[0].segments[n.offerItems[0].services[0].segments.length - 1].flightSegment.arrival.iataCode)
+              }}
+            </dd>
+            <dd class="time">
+              {{ n.offerItems[0].services[0].segments[n.offerItems[0].services[0].segments.length - 1].flightSegment.arrival.at }}
+            </dd>
+          </dl>
+        </div>
+      </section>
+    </div>
+  </div>
+  <div *ngIf="errorMessage$ | async as errorMessage" class="alert alert-danger">
+    Error: {{ errorMessage }}
+  </div>
+  <footer class="cta">
+    <!--dl>
+      <dt>
+          Total Price
+          <span class="price-detail">for all passengers</span>
+      </dt>
+      <dd class="price">
+          268€
+      </dd>
+  </dl>
+  <button type="button" class="btn-large btn-fullwidth">Confirm</button-->
+  </footer>
+</main>

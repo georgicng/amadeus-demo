@@ -1,0 +1,12 @@
+{
+  "/api": {
+    "target": "https://test.api.amadeus.com/v1",
+    "secure": true,
+    "changeOrigin": true
+  },
+  "/auth": {
+    "target": "https://test.api.amadeus.com/v1/security/oauth2/token",
+    "secure": true,
+    "changeOrigin": true
+  }
+}

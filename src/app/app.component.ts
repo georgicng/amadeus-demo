@@ -6,5 +6,6 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'ng7';
+  title = 'Peacock Travels';
+  tagline = 'To the moon and back!';
 }
