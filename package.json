@@ -1,5 +1,6 @@
 {
-  "name": "ng7",
+  "name": "amadeus-demo",
+  "description": "An Amadeus API demo app in ng7",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
